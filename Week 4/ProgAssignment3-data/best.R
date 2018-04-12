@@ -2,35 +2,27 @@ library(reshape2)
 library(tidyverse)
 library(ggplot2)
 
-# Part 1
-outcome <- read.csv(file = 'outcome-of-care-measures.csv', 
-                    colClasses = "character")
-head(outcome)
-ncol(outcome)
-names(outcome)
-
-# make a histogram
-outcome[,11] <- as.numeric(outcome[,11])
-hist(outcome[,11])
-
-# do some data cleaning... (data has character values instead of NA.)
-outcome[outcome == "Not Available"] <- NA
-# subset this data...
-out_2 <- outcome %>% 
-  select(name = Hospital.Name, 
-         state = State, 
-         heart_attack = Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack, 
-         heart_failure = Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure, 
-         pneumonia = Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia)
-
-# convert to numbers
-out_2$heart_attack <- as.numeric(out_2$heart_attack)
-out_2$heart_failure <- as.numeric(out_2$heart_failure)
-out_2$pneumonia <- as.numeric(out_2$pneumonia)
-out_2$name <- as.factor(out_2$name)
-
 # Find best hospital in a state.
 best <- function(st = "TX", measure = "heart_attack"){
+  # Part 1
+  outcome <- read.csv(file = 'outcome-of-care-measures.csv', 
+                      colClasses = "character")
+  
+  # do some data cleaning... (data has character values instead of NA.)
+  outcome[outcome == "Not Available"] <- NA
+  # subset this data...
+  out_2 <- outcome %>% 
+    select(name = Hospital.Name, 
+           state = State, 
+           heart_attack = Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack, 
+           heart_failure = Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure, 
+           pneumonia = Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia)
+  
+  # convert to numbers
+  out_2$heart_attack <- as.numeric(out_2$heart_attack)
+  out_2$heart_failure <- as.numeric(out_2$heart_failure)
+  out_2$pneumonia <- as.numeric(out_2$pneumonia)
+  out_2$name <- as.factor(out_2$name)
   
   if(!(st %in% out_2$state)){
     stop("invalid state")
