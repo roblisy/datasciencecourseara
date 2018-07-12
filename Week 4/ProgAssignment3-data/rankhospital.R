@@ -62,3 +62,8 @@ rankhospital <- function(st="TX", measure="heart failure", num = "best"){
 T0 <- rankhospital("TX", "heart failure", 4)
 T1 <- rankhospital("MD", "heart attack", "worst")
 T2 <- rankhospital("MN", "heart attack", 5000)
+
+A1 <- rankhospital("NC", "heart attack", "worst")
+A2 <- rankhospital("WA", "heart attack", 7)
+A3 <- rankhospital("TX", "pneumonia", 10)
+A4 <- rankhospital("NY", "heart attack", 7)
